@@ -1,13 +1,18 @@
 <template>
   <div class="full-page">
     <div class="game-container" ref="refContainerGame">
-      GAME COMPONENT GOES HERE
+      <Game />
     </div>
   </div>
 </template>
 
 <script>
+  import Game from "~/components/Game";
+
   export default {
+    components: {
+      Game
+    },
   }
 </script>
 
