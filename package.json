@@ -1,0 +1,25 @@
+{
+  "name": "vaccination-game",
+  "version": "1.0.0",
+  "description": "A game that shows minimalistically how to eradicate a disease in a population. First, trap the disease as fast as possible, and then vaccinate all remaining people.",
+  "author": "Claudio Bonfati",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "bootstrap": "^4.5.2",
+    "nuxt": "^2.14.4",
+    "vue": "^2.6.13"
+  },
+  "devDependencies": {
+    "@nuxtjs/style-resources": "^1.0.0",
+    "fibers": "^4.0.3",
+    "node-sass": "^4.14.1",
+    "sass": "^1.26.10",
+    "sass-loader": "^8.0.2"
+  }
+}
