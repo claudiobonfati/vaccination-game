@@ -54,7 +54,9 @@ export default {
     throttle: 0,
   },
   css: [],
-  plugins: [],
+  plugins: [
+    { src: `~plugins/feather.js`, ssr: false },
+  ],
   buildModules: [],
   modules: [
     '@nuxtjs/style-resources',
