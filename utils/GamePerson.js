@@ -36,6 +36,10 @@ export default class Person {
     this.maxDistanceX = this.distances.x - this.radius - this.shieldSize;
     this.maxDistanceY = this.distances.y - this.radius - this.shieldSize;
 
+    if (this.status === 3) {
+      this.calcDiagonalWaypoints();
+    }
+
     this.colors = {
       healthy:      "#83ebce",
       healthyTransp:"#283841",
@@ -46,6 +50,115 @@ export default class Person {
       bg:           "#030710",
       diseaseArms:  "#de3533"
     }
+  }
+
+  calcDiagonalWaypoints() {
+    let tempVector;
+
+
+    if (this.diseaseArms.topRight.enabled) {
+      let vertToTopRight = [
+        {
+          x: this.center.x,
+          y: this.center.y,
+        }, {
+          x: this.center.x + this.distances.x,
+          y: this.center.y - this.distances.y,
+        }
+      ];
+      tempVector = new Vec2(
+        vertToTopRight[1].x - vertToTopRight[0].x,
+        vertToTopRight[1].y - vertToTopRight[0].y,
+      );
+      tempVector.normalize();
+      vertToTopRight[1].x = vertToTopRight[1].x - ((this.radius + this.shieldSize) * tempVector.x);
+      vertToTopRight[1].y = vertToTopRight[1].y - ((this.radius + this.shieldSize) * tempVector.y);
+
+      this.waypoints.toTopRight.points = this.calcWaypoints(vertToTopRight);
+    }
+
+    if (this.diseaseArms.bottomRight.enabled) {
+      let vertToBottomRight = [
+        {
+          x: this.center.x,
+          y: this.center.y
+        }, {
+          x: this.center.x + this.distances.x,
+          y: this.center.y + this.distances.y,
+        }
+      ];
+      tempVector = new Vec2(
+        vertToBottomRight[1].x - vertToBottomRight[0].x,
+        vertToBottomRight[1].y - vertToBottomRight[0].y,
+      );
+      tempVector.normalize();
+      vertToBottomRight[1].x = vertToBottomRight[1].x - ((this.radius + this.shieldSize) * tempVector.x);
+      vertToBottomRight[1].y = vertToBottomRight[1].y - ((this.radius + this.shieldSize) * tempVector.y);
+
+      this.waypoints.toBottomRight.points = this.calcWaypoints(vertToBottomRight);
+    }
+
+    if (this.diseaseArms.bottomLeft.enabled) {
+      let vertToBottomLeft = [
+        {
+          x: this.center.x,
+          y: this.center.y
+        }, {
+          x: this.center.x - this.distances.x,
+          y: this.center.y + this.distances.y,
+        }
+      ];
+      tempVector = new Vec2(
+        vertToBottomLeft[1].x - vertToBottomLeft[0].x,
+        vertToBottomLeft[1].y - vertToBottomLeft[0].y,
+      );
+      tempVector.normalize();
+      vertToBottomLeft[1].x = vertToBottomLeft[1].x - ((this.radius + this.shieldSize) * tempVector.x);
+      vertToBottomLeft[1].y = vertToBottomLeft[1].y - ((this.radius + this.shieldSize) * tempVector.y);
+
+      this.waypoints.toBottomLeft.points = this.calcWaypoints(vertToBottomLeft);
+    }
+
+    if (this.diseaseArms.topLeft.enabled) {
+      let vertToTopLeft = [
+        {
+          x: this.center.x,
+          y: this.center.y
+        }, {
+          x: this.center.x - this.distances.x,
+          y: this.center.y - this.distances.y,
+        }
+      ];
+      tempVector = new Vec2(
+        vertToTopLeft[1].x - vertToTopLeft[0].x,
+        vertToTopLeft[1].y - vertToTopLeft[0].y,
+      );
+      tempVector.normalize();
+      vertToTopLeft[1].x = vertToTopLeft[1].x - ((this.radius + this.shieldSize) * tempVector.x);
+      vertToTopLeft[1].y = vertToTopLeft[1].y - ((this.radius + this.shieldSize) * tempVector.y);
+
+      this.waypoints.toTopLeft.points = this.calcWaypoints(vertToTopLeft);
+    }
+  }
+
+  calcWaypoints(vertices, points = 100) {
+    let waypoints = [];
+    for(let i = 1; i < vertices.length; i++) {
+        let pt0 = vertices[i - 1];
+        let pt1 = vertices[i];
+        let dx = pt1.x - pt0.x;
+        let dy = pt1.y - pt0.y;
+        for(let j = 0; j < points; j++) {
+          let x = pt0.x + dx * j / points;
+          let y = pt0.y + dy * j / points;
+          waypoints.push({
+            x: x,
+            y: y,
+          });
+        }
+    }
+
+    return(waypoints);
   }
 
   draw(ctx) {
