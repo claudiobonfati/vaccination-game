@@ -52,6 +52,210 @@ export default class Person {
     ctx.lineCap = "round";
     ctx.lineWidth = 2;
 
+    if (this.status === 3) {
+      // DiseaseArm Right
+      if (this.diseaseArms.right.enabled) {
+        if (this.diseaseArms.right.size < this.maxDistanceX) {
+          ctx.beginPath();
+          ctx.moveTo(
+            this.center.x,
+            this.center.y
+          );
+          ctx.lineTo(
+            this.center.x + Math.floor(this.diseaseArms.right.size),
+            this.center.y
+          );
+          ctx.strokeStyle = this.colors.diseaseArms;
+          ctx.stroke();
+
+          this.diseaseArms.right.size += (this.maxDistanceX / this.diseaseSpeed.right);
+        } else {
+          ctx.beginPath();
+          ctx.moveTo(this.center.x, this.center.y);
+          ctx.lineTo(this.center.x + this.diseaseArms.right.size, this.center.y);
+          ctx.strokeStyle = this.colors.diseaseArms;
+          ctx.stroke();
+        }
+      }
+
+      // DiseaseArm Left
+      if (this.diseaseArms.left.enabled) {
+        if (this.diseaseArms.left.size < this.maxDistanceX) {
+          ctx.beginPath();
+          ctx.moveTo(
+            this.center.x,
+            this.center.y
+          );
+          ctx.lineTo(
+            this.center.x - Math.floor(this.diseaseArms.left.size),
+            this.center.y
+          );
+          ctx.strokeStyle = this.colors.diseaseArms;
+          ctx.stroke();
+
+          this.diseaseArms.left.size += (this.maxDistanceX / this.diseaseSpeed.left);
+        } else {
+          ctx.beginPath();
+          ctx.moveTo(this.center.x, this.center.y);
+          ctx.lineTo(this.center.x - this.diseaseArms.left.size, this.center.y);
+          ctx.strokeStyle = this.colors.diseaseArms;
+          ctx.stroke();
+        }
+      }
+
+      // DiseaseArm Top
+      if (this.diseaseArms.top.enabled) {
+        if (this.diseaseArms.top.size < this.maxDistanceY) {
+          ctx.beginPath();
+          ctx.moveTo(
+            this.center.x,
+            this.center.y
+          );
+          ctx.lineTo(
+            this.center.x,
+            this.center.y - Math.floor(this.diseaseArms.top.size)
+          );
+          ctx.strokeStyle = this.colors.diseaseArms;
+          ctx.stroke();
+
+          this.diseaseArms.top.size += (this.maxDistanceY / this.diseaseSpeed.top);
+        } else {
+          ctx.beginPath();
+          ctx.moveTo(this.center.x, this.center.y);
+          ctx.lineTo(this.center.x, this.center.y - this.maxDistanceY);
+          ctx.strokeStyle = this.colors.diseaseArms;
+          ctx.stroke();
+        }
+      }
+
+      // DiseaseArm Bottom
+      if (this.diseaseArms.bottom.enabled) {
+        if (this.diseaseArms.bottom.size < this.maxDistanceY) {
+          ctx.beginPath();
+          ctx.moveTo(
+            this.center.x,
+            this.center.y
+          );
+          ctx.lineTo(
+            this.center.x,
+            this.center.y + Math.floor(this.diseaseArms.bottom.size)
+          );
+          ctx.strokeStyle = this.colors.diseaseArms;
+          ctx.stroke();
+
+          this.diseaseArms.bottom.size += (this.maxDistanceY / this.diseaseSpeed.bottom);
+        } else {
+          ctx.beginPath();
+          ctx.moveTo(this.center.x, this.center.y);
+          ctx.lineTo(this.center.x, this.center.y + this.maxDistanceY);
+          ctx.strokeStyle = this.colors.diseaseArms;
+          ctx.stroke();
+        }
+      }
+
+      // DiseaseArm Top-Right
+      if (this.diseaseArms.topRight.enabled) {
+        if (this.waypoints.toTopRight.step < 99) {
+          ctx.beginPath();
+          ctx.moveTo(
+            this.waypoints.toTopRight.points[0].x,
+            this.waypoints.toTopRight.points[0].y
+          );
+          ctx.lineTo(
+            this.waypoints.toTopRight.points[Math.floor(this.waypoints.toTopRight.step)].x,
+            this.waypoints.toTopRight.points[Math.floor(this.waypoints.toTopRight.step)].y
+          );
+          ctx.strokeStyle = this.colors.diseaseArms;
+          ctx.stroke();
+
+          this.waypoints.toTopRight.step += this.waypoints.toTopRight.points.length / this.diseaseSpeed.topRight;
+        } else {
+          ctx.beginPath();
+          ctx.moveTo(this.waypoints.toTopRight.points[0].x, this.waypoints.toTopRight.points[0].y);
+          ctx.lineTo(this.waypoints.toTopRight.points[99].x, this.waypoints.toTopRight.points[99].y);
+          ctx.lineWidth = 2;
+          ctx.strokeStyle = this.colors.diseaseArms;
+          ctx.stroke();
+        }
+      }
+
+      // DiseaseArm Bottom-Right
+      if (this.diseaseArms.bottomRight.enabled) {
+        if (this.waypoints.toBottomRight.step < 99) {
+            ctx.beginPath();
+            ctx.moveTo(
+              this.waypoints.toBottomRight.points[0].x,
+              this.waypoints.toBottomRight.points[0].y
+            );
+            ctx.lineTo(
+              this.waypoints.toBottomRight.points[Math.floor(this.waypoints.toBottomRight.step)].x,
+              this.waypoints.toBottomRight.points[Math.floor(this.waypoints.toBottomRight.step)].y
+            );
+            ctx.strokeStyle = this.colors.diseaseArms;
+            ctx.stroke();
+
+            this.waypoints.toBottomRight.step += this.waypoints.toBottomRight.points.length / this.diseaseSpeed.bottomRight;
+        } else {
+          ctx.beginPath();
+          ctx.moveTo(this.waypoints.toBottomRight.points[0].x, this.waypoints.toBottomRight.points[0].y);
+          ctx.lineTo(this.waypoints.toBottomRight.points[99].x, this.waypoints.toBottomRight.points[99].y);
+          ctx.strokeStyle = this.colors.diseaseArms;
+          ctx.stroke();
+        }
+      }
+
+      // DiseaseArm Bottom-Left
+      if (this.diseaseArms.bottomLeft.enabled) {
+        if (this.waypoints.toBottomLeft.step < 99) {
+          ctx.beginPath();
+          ctx.moveTo(
+            this.waypoints.toBottomLeft.points[0].x,
+            this.waypoints.toBottomLeft.points[0].y
+          );
+          ctx.lineTo(
+            this.waypoints.toBottomLeft.points[Math.floor(this.waypoints.toBottomLeft.step)].x,
+            this.waypoints.toBottomLeft.points[Math.floor(this.waypoints.toBottomLeft.step)].y
+          );
+          ctx.strokeStyle = this.colors.diseaseArms;
+          ctx.stroke();
+
+          this.waypoints.toBottomLeft.step += this.waypoints.toBottomLeft.points.length / this.diseaseSpeed.bottomLeft;
+        } else {
+          ctx.beginPath();
+          ctx.moveTo(this.waypoints.toBottomLeft.points[0].x, this.waypoints.toBottomLeft.points[0].y);
+          ctx.lineTo(this.waypoints.toBottomLeft.points[99].x, this.waypoints.toBottomLeft.points[99].y);
+          ctx.strokeStyle = this.colors.diseaseArms;
+          ctx.stroke();
+        }
+      }
+
+      // DiseaseArm Top-Left
+      if (this.diseaseArms.topLeft.enabled) {
+        if (this.waypoints.toTopLeft.step < 99) {
+          ctx.beginPath();
+          ctx.moveTo(
+            this.waypoints.toTopLeft.points[0].x,
+            this.waypoints.toTopLeft.points[0].y
+          );
+          ctx.lineTo(
+            this.waypoints.toTopLeft.points[Math.floor(this.waypoints.toTopLeft.step)].x,
+            this.waypoints.toTopLeft.points[Math.floor(this.waypoints.toTopLeft.step)].y
+          );
+          ctx.lineWidth = 2;
+          ctx.strokeStyle = this.colors.diseaseArms;
+          ctx.stroke();
+
+          this.waypoints.toTopLeft.step += this.waypoints.toTopLeft.points.length / this.diseaseSpeed.topLeft;
+        } else {
+          ctx.beginPath();
+          ctx.moveTo(this.waypoints.toTopLeft.points[0].x, this.waypoints.toTopLeft.points[0].y);
+          ctx.lineTo(this.waypoints.toTopLeft.points[99].x, this.waypoints.toTopLeft.points[99].y);
+          ctx.strokeStyle = this.colors.diseaseArms;
+          ctx.stroke();
+        }
+      }
+    }
+
     // Drawing Person
     if (this.status === 1) {
       // Head
