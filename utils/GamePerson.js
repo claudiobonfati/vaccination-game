@@ -51,6 +51,171 @@ export default class Person {
   draw(ctx) {
     ctx.lineCap = "round";
     ctx.lineWidth = 2;
+
+    // Drawing Person
+    if (this.status === 1) {
+      // Head
+      ctx.beginPath();
+      ctx.arc(
+        this.center.x,
+        this.center.y,
+        this.radius,
+        0,
+        Math.PI * 2,
+        false
+      );
+      ctx.lineWidth = 5;
+      ctx.strokeStyle = this.colors.healthy;
+      ctx.stroke();
+      ctx.fillStyle = this.colors.healthyTransp;
+      ctx.fill();
+
+      // Left eye
+      ctx.beginPath();
+      ctx.arc(this.center.x - (this.radius / 3), this.center.y - (this.radius / 4), 2, 0, Math.PI * 2, false);
+      ctx.fillStyle = this.colors.healthy;
+      ctx.fill();
+
+      // Right eye
+      ctx.beginPath();
+      ctx.arc(this.center.x + (this.radius / 3), this.center.y - (this.radius / 4), 2, 0, Math.PI * 2, false);
+      ctx.fillStyle = this.colors.healthy;
+      ctx.fill();
+
+      // Mouth
+      ctx.beginPath();
+      ctx.moveTo(
+        this.center.x - (this.radius / 2.5), // Starting Point
+        this.center.y + (this.radius / 3), // Starting Point
+      );
+      ctx.lineTo(
+        this.center.x + (this.radius / 2.5), // Ending Point
+        this.center.y + (this.radius / 3), // Ending Point
+      );
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = this.colors.healthy;
+      ctx.stroke();
+    } else if (this.status === 2) {
+      // Head
+      ctx.beginPath();
+      ctx.arc(
+        this.center.x,
+        this.center.y,
+        this.radius,
+        0,
+        Math.PI * 2,
+        false
+      );
+      ctx.lineWidth = 5;
+      ctx.strokeStyle = this.colors.imune;
+      ctx.stroke();
+      ctx.fillStyle = this.colors.imune;
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(
+        this.center.x,
+        this.center.y,
+        this.radius + 6,
+        0,
+        Math.PI * 2,
+        false
+      );
+      ctx.fillStyle = this.colors.imuneTransp;
+      ctx.fill();
+
+      // Left eye
+      ctx.beginPath();
+      ctx.arc(this.center.x - (this.radius / 3), this.center.y - (this.radius / 3), 2, 0, Math.PI * 2, false);
+      ctx.fillStyle = this.colors.bg;
+      ctx.fill();
+
+      // Right eye
+      ctx.beginPath();
+      ctx.arc(this.center.x + (this.radius / 3), this.center.y - (this.radius / 3), 2, 0, Math.PI * 2, false);
+      ctx.fillStyle = this.colors.bg;
+      ctx.fill();
+
+      // Mouth
+      ctx.beginPath();
+      ctx.moveTo(
+        this.center.x - (this.radius / 2), // Starting Point
+        this.center.y + (this.radius / 5), // Starting Point
+      );
+      ctx.bezierCurveTo(
+        this.center.x - (this.radius / 2.5), // Force Curve Starting Point
+        this.center.y + (this.radius / 1.5), // Force Curve Starting Point
+
+        this.center.x + (this.radius / 2.5), // Force Curve Ending Point
+        this.center.y + (this.radius / 1.5), // Force Curve Ending Point
+
+        this.center.x + (this.radius / 2), // Ending Point
+        this.center.y + (this.radius / 5), // Ending Point
+      );
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = this.colors.bg;
+      ctx.stroke();
+    } else if (this.status === 3) {
+      // Head
+      ctx.beginPath();
+      ctx.arc(
+        this.center.x + (Math.floor(Math.random() * 2) - 0.5),
+        this.center.y + (Math.floor(Math.random() * 2) - 0.5),
+        this.radius,
+        0,
+        Math.PI * 2,
+        false
+      );
+      ctx.lineWidth = 5;
+      ctx.strokeStyle = this.colors.sick;
+      ctx.stroke();
+      ctx.fillStyle = this.colors.sick;
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(
+        this.center.x,
+        this.center.y,
+        this.radius + 6,
+        0,
+        Math.PI * 2,
+        false
+      );
+      ctx.fillStyle = this.colors.sickTransp;
+      ctx.fill();
+
+      // Left eye
+      ctx.beginPath();
+      ctx.arc(this.center.x - (this.radius / 3), this.center.y - (this.radius / 3), 2.5, 0, Math.PI * 2, false);
+      ctx.fillStyle = this.colors.bg;
+      ctx.fill();
+
+      // Right eye
+      ctx.beginPath();
+      ctx.arc(this.center.x + (this.radius / 3), this.center.y - (this.radius / 3), 2.5, 0, Math.PI * 2, false);
+      ctx.fillStyle = this.colors.bg;
+      ctx.fill();
+
+      // Mouth
+      ctx.beginPath();
+      ctx.moveTo(
+        this.center.x - (this.radius / 2),  // Starting Point
+        this.center.y + (this.radius / 2),  // Starting Point
+      );
+      ctx.bezierCurveTo(
+        this.center.x - (this.radius / 2.5), // Force Curve Starting Point
+        this.center.y + (this.radius / 5), // Force Curve Starting Point
+
+        this.center.x + (this.radius / 2.5), // Force Curve Ending Point
+        this.center.y + (this.radius / 5), // Force Curve Ending Point
+
+        this.center.x + (this.radius / 2), // Ending Point
+        this.center.y + (this.radius / 2), // Ending Point
+      );
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = this.colors.bg;
+      ctx.stroke();
+    }
   }
 
   update(ctx) {
