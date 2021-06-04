@@ -188,6 +188,11 @@ export default class Person {
           ctx.lineTo(this.center.x + this.diseaseArms.right.size, this.center.y);
           ctx.strokeStyle = this.colors.diseaseArms;
           ctx.stroke();
+
+          if (!this.diseaseArms.right.infected) {
+            this.surroundPeople.find(x => x.position === "right").person.tryToInfect();
+            this.diseaseArms.right.infected = true;
+          }
         }
       }
 
@@ -213,6 +218,11 @@ export default class Person {
           ctx.lineTo(this.center.x - this.diseaseArms.left.size, this.center.y);
           ctx.strokeStyle = this.colors.diseaseArms;
           ctx.stroke();
+
+          if (!this.diseaseArms.left.infected) {
+            this.surroundPeople.find(x => x.position === "left").person.tryToInfect();
+            this.diseaseArms.left.infected = true;
+          }
         }
       }
 
@@ -238,6 +248,11 @@ export default class Person {
           ctx.lineTo(this.center.x, this.center.y - this.maxDistanceY);
           ctx.strokeStyle = this.colors.diseaseArms;
           ctx.stroke();
+
+          if (!this.diseaseArms.top.infected) {
+            this.surroundPeople.find(x => x.position === "top").person.tryToInfect();
+            this.diseaseArms.top.infected = true;
+          }
         }
       }
 
@@ -263,6 +278,11 @@ export default class Person {
           ctx.lineTo(this.center.x, this.center.y + this.maxDistanceY);
           ctx.strokeStyle = this.colors.diseaseArms;
           ctx.stroke();
+
+          if (!this.diseaseArms.bottom.infected) {
+            this.surroundPeople.find(x => x.position === "bottom").person.tryToInfect();
+            this.diseaseArms.bottom.infected = true;
+          }
         }
       }
 
@@ -289,6 +309,11 @@ export default class Person {
           ctx.lineWidth = 2;
           ctx.strokeStyle = this.colors.diseaseArms;
           ctx.stroke();
+
+          if (!this.diseaseArms.topRight.infected) {
+            this.surroundPeople.find(x => x.position === "topRight").person.tryToInfect();
+            this.diseaseArms.topRight.infected = true;
+          }
         }
       }
 
@@ -314,6 +339,11 @@ export default class Person {
           ctx.lineTo(this.waypoints.toBottomRight.points[99].x, this.waypoints.toBottomRight.points[99].y);
           ctx.strokeStyle = this.colors.diseaseArms;
           ctx.stroke();
+
+          if (!this.diseaseArms.bottomRight.infected) {
+            this.surroundPeople.find(x => x.position === "bottomRight").person.tryToInfect();
+            this.diseaseArms.bottomRight.infected = true;
+          }
         }
       }
 
@@ -339,6 +369,11 @@ export default class Person {
           ctx.lineTo(this.waypoints.toBottomLeft.points[99].x, this.waypoints.toBottomLeft.points[99].y);
           ctx.strokeStyle = this.colors.diseaseArms;
           ctx.stroke();
+
+          if (!this.diseaseArms.bottomLeft.infected) {
+            this.surroundPeople.find(x => x.position === "bottomLeft").person.tryToInfect();
+            this.diseaseArms.bottomLeft.infected = false;
+          }
         }
       }
 
@@ -365,6 +400,11 @@ export default class Person {
           ctx.lineTo(this.waypoints.toTopLeft.points[99].x, this.waypoints.toTopLeft.points[99].y);
           ctx.strokeStyle = this.colors.diseaseArms;
           ctx.stroke();
+
+          if (!this.diseaseArms.topLeft.infected) {
+            this.surroundPeople.find(x => x.position === "topLeft").person.tryToInfect();
+            this.diseaseArms.topLeft.infected = true;
+          }
         }
       }
     }
@@ -549,5 +589,12 @@ export default class Person {
 
   setMounted(surroundPeople) {
     this.surroundPeople = surroundPeople;
+  }
+
+  tryToInfect() {
+    if (this.status === 1) {
+      this.status = 3;
+      this.calcDiagonalWaypoints();
+    }
   }
 }
