@@ -63,5 +63,20 @@ export default {
   ],
   styleResources: {
     sass: ['~assets/sass/global.sass']
+  },
+  build: {
+    vendor: [],
+    postcss: {
+      preset: {
+        features: {
+          customProperties: false
+        }
+      }
+    },
+    transpile: [
+      "gsap"
+    ],
+    extend (config, ctx) {
+    }
   }
 }

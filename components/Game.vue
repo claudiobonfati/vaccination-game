@@ -94,6 +94,13 @@
 </template>
 
 <script>
+  import gsap from "gsap";
+  import TweenLite from "gsap";
+
+  if (process.client) {
+    gsap.registerPlugin(TweenLite);
+  }
+
   export default {
     name: 'Game',
     data: function() {
@@ -103,6 +110,9 @@
     methods: {
     },
     mounted() {
+      let { refOverlayInitial, refCanvas } = this.$refs;
+      TweenLite.to(refOverlayInitial, .5, { opacity: 1, display: 'block'});
+      TweenLite.to(refCanvas, .5, { opacity: 0, display: 'none'});
     }
   }
 </script>

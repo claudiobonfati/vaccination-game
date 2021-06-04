@@ -13,6 +13,7 @@
   "dependencies": {
     "bootstrap": "^4.5.2",
     "feather-icons": "^4.28.0",
+    "gsap": "^3.5.1",
     "nuxt": "^2.14.4",
     "vue": "^2.6.13",
     "vue-feather": "^1.1.1"
