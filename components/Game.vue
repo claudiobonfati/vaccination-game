@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="c-game shadow-lg">
+  <div class="c-game shadow-lg" :style="{width: width + 'px'}">
     <div id="game-header" class="px-3 px-sm-4 px-md-5 py-3 py-md-4">
       <div class="row justify-content-center align-items-center no-gutters">
         <div class="col-6 pr-0 text-left">
@@ -39,7 +39,7 @@
       <div id="game-overlay-initial" class="w-100 h-100" :style="{ backgroundImage: 'url(' + require('@/assets/images/game-background.png') + ')' }" ref="refOverlayInitial">
         <div class="row no-gutters w-100 h-100 align-items-center justify-content-center">
           <div class="col-md-6 col-8 pb-5 text-center">
-            <button class="btn btn-default-blue lay-color-black mb-3 w-100">
+            <button class="btn btn-default-blue lay-color-black mb-3 w-100" @click="playGame()">
               Play
             </button>
           </div>
@@ -48,7 +48,7 @@
       <div id="game-overlay-pause" class="w-100 h-100" :style="{ backgroundImage: 'url(' + require('@/assets/images/game-background.png') + ')' }" ref="refOverlayPause">
         <div class="row no-gutters w-100 h-100 align-items-center justify-content-center">
           <div class="col-md-7 col-8 pb-5 text-center">
-            <button class="btn btn-default-blue lay-color-black mb-3 w-100">
+            <button class="btn btn-default-blue lay-color-black mb-3 w-100" @click="playGame()">
               Continue
             </button>
             <br>
@@ -62,9 +62,9 @@
         <div class="row no-gutters w-100 h-100 align-items-center justify-content-center">
           <section class="col-md-7 col-8 pb-5 text-center">
             <h5 class="mb-2 h3 font-weight-bold">
-              WIN TITLE HERE
+              {{ content.win.title }}
             </h5>
-            <p class="mb-3">Win description here</p>
+            <p class="mb-3" v-html="content.win.description"></p>
             <br>
             <button class="btn btn-default-blue w-100 mb-3">
               Play again
@@ -75,9 +75,9 @@
           </section>
           <section class="col-md-7 col-8 pb-5 text-center">
             <h5 class="mb-2 d-flex align-items-center h3 font-weight-bold">
-              LOSE TITLE HERE
+              {{ content.lose.title }}
             </h5>
-            <p class="mb-3">Lose description here</p>
+            <p class="mb-3" v-html="content.lose.description"></p>
             <br>
             <button class="btn btn-default-blue w-100 mb-3">
               Try again
@@ -88,7 +88,7 @@
           </section>
         </div>
       </div>
-      <canvas id="c-game-canvas" ref="refCanvas"></canvas>
+      <canvas id="c-game-canvas" :style="{width: this.width + 'px', height: this.height + 'px'}" ref="refCanvas"></canvas>
     </div>
   </div>
 </template>
@@ -96,6 +96,7 @@
 <script>
   import gsap from "gsap";
   import TweenLite from "gsap";
+  import Person from "~/utils/GamePerson";
 
   if (process.client) {
     gsap.registerPlugin(TweenLite);
@@ -105,14 +106,60 @@
     name: 'Game',
     data: function() {
       return {
+        status: 'not-started',  // Game status: 'not-started', 'paused', 'playing' or 'ended'
+        centersArray: [],       // Position of each person on population
+        population: [],         // Population array
+        canvas: null,           // HTML canvas element
+        ctx: null,              // CTX from canvas
+        xDistance: 0,           // X distange between people on population
+        yDistance: 0,           // Y distange between people on population
+        width: null,            // Canvas width (get from parent)
+        height: 570,            // Canvas height
+        content: {
+          win: {
+            title: 'Congratulations, successfully eradicated disease!',
+            description: 'Did you know that in order to <strong style="color: #ea9b1c;">eradicate</strong> a disease <strong style="color: #ea9b1c;">95%</strong> of the population needs to be immunized?',
+          },
+          lose: {
+            title: 'Too bad... you need to be faster!',
+            description: 'Did you know that in order to <strong style="color: #ea9b1c;">eradicate</strong> a disease <strong style="color: #ea9b1c;">95%</strong> of the population needs to be immunized?',
+          }
+        }
       }
     },
     methods: {
     },
     mounted() {
-      let { refOverlayInitial, refCanvas } = this.$refs;
+      if (window.innerWidth < 500) {
+        this.width = 300;
+        this.config.personRadius = 11;
+      }
+
+      if (window.innerWidth < 769) {
+        this.height = this.$parent.$refs.refContainerGame.clientHeight - 115; // 115 = Mobile header height
+      }
+
+      let { refOverlayInitial, refOverlayPause, refCanvas } = this.$refs;
       TweenLite.to(refOverlayInitial, .5, { opacity: 1, display: 'block'});
       TweenLite.to(refCanvas, .5, { opacity: 0, display: 'none'});
+    },
+    watch: {
+      status: function (val) {
+        let { refOverlayInitial, refOverlayPause, refCanvas, refOverlayEnd } = this.$refs;
+
+        if (val === 'paused') {
+          TweenLite.to(refOverlayPause, .5, { opacity: 1, display: 'block'});
+          TweenLite.to(refCanvas, .5, { opacity: 0, display: 'none'});
+        } else if (val === 'playing') {
+          TweenLite.to(refCanvas, .5, { opacity: 1, display: 'block'});
+          TweenLite.to(refOverlayInitial, .5, { opacity: 0, display: 'none'});
+          TweenLite.to(refOverlayPause, .5, { opacity: 0, display: 'none'});
+          TweenLite.to(refOverlayEnd, .5, { opacity: 0, display: 'none'});
+        } else if (val === 'ended') {
+          TweenLite.to(refOverlayEnd, .5, { opacity: 1, display: 'block'});
+          TweenLite.to(refCanvas, .5, { opacity: 0, display: 'none'});
+        }
+      }
     }
   }
 </script>
