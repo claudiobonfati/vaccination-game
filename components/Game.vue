@@ -213,6 +213,27 @@
             });
           }
         }
+
+        // Set ramdomly initial infected people
+        let infected = [];
+        let infectedPosition = [];
+        let allowedPosition = []
+        for (let i = 1; i <= this.config.field.x * this.config.field.y; i++) {
+          if (
+            !(i % this.config.field.y === 1) && // First Row
+            !(i % this.config.field.y === 0) && // Last Row
+            !(i <= this.config.field.y) && // First Column
+            !(i >= (this.config.field.x * this.config.field.y) - (this.config.field.y - 1)) // Last Collum
+          ) {
+            allowedPosition.push(i);
+          } else {
+            allowedPosition.push(i);
+          }
+        }
+        for (let i = 0; i < this.config.infection.initInfected; i++) {
+          infectedPosition.push(this.randomIntFromRange(0, allowedPosition.length - 1, infectedPosition));
+          infected.push(allowedPosition[infectedPosition[i]]);
+        }
       },
       initTimer: function() {
         this.config.pausedTime = 0;
