@@ -197,6 +197,22 @@
           this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         }
       },
+      randomIntFromRange: function(min, max, except) {
+        if (except) {
+          let number = Math.floor(Math.random() * (max - min + 1) + min);
+          return (except.includes(number)) ? this.randomIntFromRange(min, max, except) : number;
+        } else {
+          return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+      },
+      countItems: function(arr, what){
+        var count= 0, i;
+        while((i= arr.indexOf(what, i))!= -1){
+          ++count;
+          ++i;
+        }
+        return count;
+      },
       getDistance: function(x1, y1, x2, y2) {
         const xDist = x2 - x1;
         const yDist = y2 - y1;
