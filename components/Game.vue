@@ -6,7 +6,7 @@
           <h4 class="game-font-timer font-weight-normal d-flex align-items-center">
             <span class="game-clock mr-1" :class="'gm-'+status"><span></span></span>
             <span>
-              30:00s
+              {{ getRemainingTimeDisplay() }}
             </span>
           </h4>
           <button id="game-btn-pause">
@@ -107,6 +107,8 @@
     data: function() {
       return {
         config: {
+          pausedTime: 0,        // Store paused timer to be added on continue game
+          timer: 30,            // (seconds) Max. time to complete the game
           field: {
             x: 6,               // Number of columns
             y: 9,               // Number of rows
@@ -168,6 +170,18 @@
       }
     },
     methods: {
+      initTimer: function() {
+        this.config.pausedTime = 0;
+        this.config.framerate.then = window.performance.now();
+        this.config.framerate.startTime = this.config.framerate.then;
+      },
+      pauseTimer: function() {
+        this.config.pausedTime = this.getRemainingTime();
+      },
+      continueTimer: function() {
+        this.config.framerate.then = window.performance.now();
+        this.config.framerate.startTime = this.config.framerate.then;
+      },
       startAnimating: function(fps) {
         this.config.framerate.fpsInterval = 1000 / fps;
         this.animate();
@@ -219,9 +233,38 @@
 
         return Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2));
       },
+      getRemainingTime: function() { // Calc timer, return int value
+        let time;
+
+        if (this.config.pausedTime !== 0) {
+          time = this.config.pausedTime - ((this.config.framerate.now - this.config.framerate.startTime) / 1000);
+        } else {
+          time = this.config.timer - ((this.config.framerate.now - this.config.framerate.startTime) / 1000);
+        }
+
+        if (isNaN(time)) { return; }
+
+        return time;
+      },
+      getRemainingTimeDisplay: function() { // Format timer to display on HTML
+        if (this.status === 'playing') {
+          return formatTime(this.getRemainingTime());
+        } else if (this.status === 'not-started') {
+          return this.config.timer + 's';
+        } else {
+          return formatTime(this.config.pausedTime);
+        }
+
+        function formatTime(time) {
+          return time > 0 ? time.toFixed(2).toString().split('.').join(':') : '0:00';
+        };
+      },
       playGame: function() {
         if (this.status === 'not-started') {
+          this.initTimer();
           this.startAnimating(24);
+        } else if (this.status === 'paused') {
+          this.continueTimer();
         }
 
         this.status = 'playing';
@@ -254,6 +297,8 @@
           TweenLite.to(refOverlayPause, .5, { opacity: 0, display: 'none'});
           TweenLite.to(refOverlayEnd, .5, { opacity: 0, display: 'none'});
         } else if (val === 'ended') {
+          this.pauseTimer();
+
           TweenLite.to(refOverlayEnd, .5, { opacity: 1, display: 'block'});
           TweenLite.to(refCanvas, .5, { opacity: 0, display: 'none'});
         }
