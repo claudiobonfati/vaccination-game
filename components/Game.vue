@@ -234,6 +234,68 @@
           infectedPosition.push(this.randomIntFromRange(0, allowedPosition.length - 1, infectedPosition));
           infected.push(allowedPosition[infectedPosition[i]]);
         }
+
+        // Dependencies for instanciate Person class
+        let counter = 1;
+        let distances = {
+          x: this.xDistance,
+          y: this.yDistance,
+        }
+        let disease = {};
+
+        // Instanciate each Person and add to Population array
+        this.centersArray.forEach(center => {
+          let status = 1; // Init status: 1 = healthy; 2 = Immune; 3 = Infected
+
+          // Randomly choose what directions will spread disease
+          let diseaseArms = {
+            top:          { enabled: Math.random() >= 0.5, size: 0, infected: false, },
+            right:        { enabled: Math.random() >= 0.5, size: 0, infected: false, },
+            bottom:       { enabled: Math.random() >= 0.5, size: 0, infected: false, },
+            left:         { enabled: Math.random() >= 0.5, size: 0, infected: false, },
+            topRight:     { enabled: Math.random() >= 0.5, infected: false, },
+            bottomRight:  { enabled: Math.random() >= 0.5, infected: false, },
+            bottomLeft:   { enabled: Math.random() >= 0.5, infected: false, },
+            topLeft:      { enabled: Math.random() >= 0.5, infected: false, },
+          };
+
+          // Randomly choose velocity to spread
+          if (document.body.clientWidth >= 100) {
+            disease = {
+              top:          this.randomIntFromRange(this.config.infection.velocityDesk.axes.min, this.config.infection.velocityDesk.axes.max),
+              right:        this.randomIntFromRange(this.config.infection.velocityDesk.axes.min, this.config.infection.velocityDesk.axes.max),
+              bottom:       this.randomIntFromRange(this.config.infection.velocityDesk.axes.min, this.config.infection.velocityDesk.axes.max),
+              left:         this.randomIntFromRange(this.config.infection.velocityDesk.axes.min, this.config.infection.velocityDesk.axes.max),
+              topRight:     this.randomIntFromRange(this.config.infection.velocityDesk.diag.min, this.config.infection.velocityDesk.diag.max),
+              bottomRight:  this.randomIntFromRange(this.config.infection.velocityDesk.diag.min, this.config.infection.velocityDesk.diag.max),
+              bottomLeft:   this.randomIntFromRange(this.config.infection.velocityDesk.diag.min, this.config.infection.velocityDesk.diag.max),
+              topLeft:      this.randomIntFromRange(this.config.infection.velocityDesk.diag.min, this.config.infection.velocityDesk.diag.max),
+            };
+          } else {
+            disease = {
+              top:          this.randomIntFromRange(this.config.infection.velocityMobile.axes.min, this.config.infection.velocityMobile.axes.max),
+              right:        this.randomIntFromRange(this.config.infection.velocityMobile.axes.min, this.config.infection.velocityMobile.axes.max),
+              bottom:       this.randomIntFromRange(this.config.infection.velocityMobile.axes.min, this.config.infection.velocityMobile.axes.max),
+              left:         this.randomIntFromRange(this.config.infection.velocityMobile.axes.min, this.config.infection.velocityMobile.axes.max),
+              topRight:     this.randomIntFromRange(this.config.infection.velocityMobile.diag.min, this.config.infection.velocityMobile.diag.max),
+              bottomRight:  this.randomIntFromRange(this.config.infection.velocityMobile.diag.min, this.config.infection.velocityMobile.diag.max),
+              bottomLeft:   this.randomIntFromRange(this.config.infection.velocityMobile.diag.min, this.config.infection.velocityMobile.diag.max),
+              topLeft:      this.randomIntFromRange(this.config.infection.velocityMobile.diag.min, this.config.infection.velocityMobile.diag.max),
+            };
+          }
+
+          // Infect person if was previously choosed
+          if (infected.includes(counter)) {
+            status = 3;
+            diseaseArms.top.enabled = true;
+            disease.top = this.config.infection.velocityMobile.axes.min;
+          }
+
+          // Instanciate Person and add to Population array
+          this.population.push(new Person(center.x, center.y, disease, status, distances, diseaseArms, this.config.personRadius));
+
+          counter++;
+        });
       },
       initTimer: function() {
         this.config.pausedTime = 0;
