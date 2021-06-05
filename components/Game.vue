@@ -291,6 +291,28 @@
             disease.top = this.config.infection.velocityMobile.axes.min;
           }
 
+          // Disabled disease arms for out of the field
+          if (counter % this.config.field.y === 1) { // First row
+            diseaseArms.top.enabled = false;
+            diseaseArms.topRight.enabled = false;
+            diseaseArms.topLeft.enabled = false;
+          }
+          if (counter % this.config.field.y === 0) { // Last row
+            diseaseArms.bottom.enabled = false;
+            diseaseArms.bottomLeft.enabled = false;
+            diseaseArms.bottomRight.enabled = false;
+          }
+          if (counter <= this.config.field.y) { // First column
+            diseaseArms.left.enabled = false;
+            diseaseArms.topLeft.enabled = false;
+            diseaseArms.bottomLeft.enabled = false;
+          }
+          if (counter >= (this.config.field.x * this.config.field.y) - (this.config.field.y - 1)) { // Last column
+            diseaseArms.right.enabled = false;
+            diseaseArms.topRight.enabled = false;
+            diseaseArms.bottomRight.enabled = false;
+          }
+
           // Instanciate Person and add to Population array
           this.population.push(new Person(center.x, center.y, disease, status, distances, diseaseArms, this.config.personRadius));
 
