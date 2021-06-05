@@ -419,6 +419,28 @@
 
           // Clear canvas
           this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+          // Draw field guidelines
+          for (let xCurrent = 0, x = 1; x <= this.config.field.x; x++) { // Horizontal guidelines
+            xCurrent += this.xDistance;
+
+            this.ctx.beginPath();
+            this.ctx.moveTo(xCurrent, this.yDistance);
+            this.ctx.lineTo(xCurrent, this.yDistance * this.config.field.y);
+            this.ctx.lineWidth = .5;
+            this.ctx.strokeStyle = 'rgba(255, 255, 255, .2)';
+            this.ctx.stroke();
+          }
+          for (let yCurrent = 0, y = 1; y <= this.config.field.y; y++) { // Vertical guidelines
+            yCurrent += this.yDistance;
+
+            this.ctx.beginPath();
+            this.ctx.moveTo(this.xDistance, yCurrent);
+            this.ctx.lineTo(this.xDistance * this.config.field.x, yCurrent);
+            this.ctx.lineWidth = .5;
+            this.ctx.strokeStyle = 'rgba(255, 255, 255, .2)';
+            this.ctx.stroke();
+          }
         }
       },
       randomIntFromRange: function(min, max, except) {
