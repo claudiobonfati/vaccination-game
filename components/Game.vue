@@ -170,6 +170,29 @@
       }
     },
     methods: {
+      init: function() { // Initiate all dependencies for game (executed only once)
+        // Default canvas variavles
+        this.canvas = document.getElementById('c-game-canvas');
+        this.ctx = this.canvas.getContext('2d');
+
+        // Set Width
+        this.width = this.$parent.$refs.refContainerGame.clientWidth;
+
+        // Set actual dimentions in memory (scaled to account for extra pixel density)
+        let scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas
+        this.canvas.width = this.width * scale;
+        this.canvas.height = this.height * scale;
+
+        // Normalize coordinate system to use css pixels
+        this.ctx.scale(scale, scale);
+
+        // Paint canvas
+        this.canvas.style.backgroundColor = "#030710";
+
+        // Calc X and Y distances for population
+        this.xDistance = Math.trunc(this.width / (this.config.field.x + 1));
+        this.yDistance = Math.trunc(this.height / (this.config.field.y + 1));
+      },
       initTimer: function() {
         this.config.pausedTime = 0;
         this.config.framerate.then = window.performance.now();
@@ -283,6 +306,21 @@
       let { refOverlayInitial, refOverlayPause, refCanvas } = this.$refs;
       TweenLite.to(refOverlayInitial, .5, { opacity: 1, display: 'block'});
       TweenLite.to(refCanvas, .5, { opacity: 0, display: 'none'});
+
+      function onResize() {
+        this.init();
+        this.status = 'not-started';
+
+        if (window.innerWidth < 769) {
+          this.height = this.$parent.$refs.refContainerGame.clientHeight - 115; // 115 = Mobile header height
+        } else {
+          this.height = 570;
+        }
+      }
+
+      window.addEventListener("resize", onResize.bind(this));
+
+      this.init();
     },
     watch: {
       status: function (val) {
