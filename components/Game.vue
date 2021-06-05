@@ -192,6 +192,27 @@
         // Calc X and Y distances for population
         this.xDistance = Math.trunc(this.width / (this.config.field.x + 1));
         this.yDistance = Math.trunc(this.height / (this.config.field.y + 1));
+
+        // Intanciate population
+        this.initGame();
+      },
+      initGame: function () { // Intanciate population
+        // Clean old values if exists
+        this.centersArray = [];
+        this.population = [];
+
+        // Calc people`s centers array
+        for (let xCurrent = 0, x = 1; x <= this.config.field.x; x++) {
+          xCurrent += this.xDistance;
+
+          for (let yCurrent = 0, y = 1; y <= this.config.field.y; y++) {
+            yCurrent += this.yDistance;
+            this.centersArray.push({
+              x: xCurrent,
+              y: yCurrent,
+            });
+          }
+        }
       },
       initTimer: function() {
         this.config.pausedTime = 0;
@@ -316,6 +337,8 @@
         } else {
           this.height = 570;
         }
+
+        this.initGame();
       }
 
       window.addEventListener("resize", onResize.bind(this));
