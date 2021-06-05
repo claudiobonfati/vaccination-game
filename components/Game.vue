@@ -296,6 +296,67 @@
 
           counter++;
         });
+
+        // Store surround people of each person to be infected later
+        counter = 1;
+        this.population.forEach(person => {
+          let surroundPeople = [];
+
+          // Get closest Person to each direction enabled
+          if (person.diseaseArms.top.enabled) {
+            surroundPeople.push({
+              position: "top",
+              person: this.population[(counter - 1) - 1],
+            });
+          }
+          if (person.diseaseArms.topRight.enabled) {
+            surroundPeople.push({
+              position: "topRight",
+              person: this.population[(counter + (this.config.field.y - 1)) - 1],
+            });
+          }
+          if (person.diseaseArms.right.enabled) {
+            surroundPeople.push({
+              position: "right",
+              person: this.population[(counter + this.config.field.y) - 1],
+            });
+          }
+          if (person.diseaseArms.bottomRight.enabled) {
+            surroundPeople.push({
+              position: "bottomRight",
+              person: this.population[(counter + (this.config.field.y + 1)) - 1],
+            });
+          }
+          if (person.diseaseArms.bottom.enabled) {
+            surroundPeople.push({
+              position: "bottom",
+              person: this.population[(counter + 1) - 1],
+            });
+          }
+          if (person.diseaseArms.bottomLeft.enabled) {
+            surroundPeople.push({
+              position: "bottomLeft",
+              person: this.population[(counter - (this.config.field.y - 1)) - 1],
+            });
+          }
+          if (person.diseaseArms.left.enabled) {
+            surroundPeople.push({
+              position: "left",
+              person: this.population[(counter - this.config.field.y) - 1],
+            });
+          }
+          if (person.diseaseArms.topLeft.enabled) {
+            surroundPeople.push({
+              position: "topLeft",
+              person: this.population[(counter - (this.config.field.y + 1)) - 1],
+            });
+          }
+
+          // Save closest people into each Person (to be infected later)
+          person.setMounted(surroundPeople);
+
+          counter++;
+        });
       },
       initTimer: function() {
         this.config.pausedTime = 0;
