@@ -168,6 +168,48 @@
       }
     },
     methods: {
+      startAnimating: function(fps) {
+        this.config.framerate.fpsInterval = 1000 / fps;
+        this.animate();
+      },
+      animate: function(timeStamp) {
+        // Request another frame
+        window.requestAnimationFrame(this.animate);
+
+        if (this.status != 'playing') { return; }
+
+        if (this.getRemainingTimeDisplay() === '0:00') {
+          this.status = 'ended';
+          return;
+        }
+
+        // Calc elapsed time since last loop
+        this.config.framerate.now = timeStamp;
+        this.config.framerate.elapsed = this.config.framerate.now - this.config.framerate.then;
+
+        // If enough time has elapsed, draw the next frame
+        if (this.config.framerate.elapsed > this.config.framerate.fpsInterval) {
+          // Get ready for next frame by setting then = now, but...
+          // Also, adjust for fpsInterval not being multiple of 16.67
+          this.config.framerate.then = this.config.framerate.now - (this.config.framerate.elapsed % this.config.framerate.fpsInterval);
+
+          // Clear canvas
+          this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        }
+      },
+      getDistance: function(x1, y1, x2, y2) {
+        const xDist = x2 - x1;
+        const yDist = y2 - y1;
+
+        return Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2));
+      },
+      playGame: function() {
+        if (this.status === 'not-started') {
+          this.startAnimating(24);
+        }
+
+        this.status = 'playing';
+      }
     },
     mounted() {
       if (window.innerWidth < 500) {
