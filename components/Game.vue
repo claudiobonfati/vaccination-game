@@ -106,6 +106,46 @@
     name: 'Game',
     data: function() {
       return {
+        config: {
+          field: {
+            x: 6,               // Number of columns
+            y: 9,               // Number of rows
+          },
+          infection: {
+            initInfected: 2,    // Amount of infected people initially
+            velocityMobile: {   // Amount o frames to spread on mobile devices | 24 = 1s
+              axes: {
+                min: 72,        // 3s
+                max: 120,       // 5s
+              },
+              diag:  {
+                min: 120,       // 5s
+                max: 168,       // 7s
+              },
+            },
+            velocityDesk: {     // Amount o frames to spread on desktop devices | 24 = 1s
+              axes: {
+                min: 120,       // 5s
+                max: 168,       // 7s
+              },
+              diag:  {
+                min: 168,       // 7s
+                max: 216,       // 9s
+              },
+            },
+            chance: 75          // (Percent) Chance of spreading to each person
+          },
+          personRadius: 15,     // Radius on each person on field
+          clickRadius: 15,      // Radius reacheable to immunize population
+          framerate: {          // Vars needed to FPS and Timer counters
+            frameCount: 0,
+            fpsInterval: 0,
+            startTime: 0,
+            now: 0,
+            then: 0,
+            elapsed: 0,
+          },
+        },
         status: 'not-started',  // Game status: 'not-started', 'paused', 'playing' or 'ended'
         centersArray: [],       // Position of each person on population
         population: [],         // Population array
