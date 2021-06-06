@@ -19,4 +19,3 @@ deploy:
     condition: $TRAVIS_BRANCH =~ ^(master|main)$
 env:
   - BASE_URL=$base_url
-  - SUBFOLDER=$url_subfolder
