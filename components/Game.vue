@@ -139,6 +139,7 @@
           },
           personRadius: 15,     // Radius on each person on field
           clickRadius: 15,      // Radius reacheable to immunize population
+          debug: false,         // Debug mode (enable hack and show FPS)
           framerate: {          // Vars needed to FPS and Timer counters
             frameCount: 0,
             fpsInterval: 0,
@@ -441,6 +442,17 @@
             this.ctx.lineWidth = .5;
             this.ctx.strokeStyle = 'rgba(255, 255, 255, .2)';
             this.ctx.stroke();
+          }
+
+          // Show FPS on debug mode
+          if (this.config.debug) {
+            let sinceStart = this.config.framerate.now - this.config.framerate.startTime;
+            let currentFps = Math.round(1000 / (sinceStart / ++this.config.framerate.frameCount) * 100) / 100;
+
+            // Write FPS on canvas
+            this.ctx.font = '25px Arial';
+            this.ctx.fillStyle = 'white';
+            this.ctx.fillText("Time passed: " + Math.floor(sinceStart / 1000) + " - FPS: " + currentFps, 10, 30);
           }
         }
       },
