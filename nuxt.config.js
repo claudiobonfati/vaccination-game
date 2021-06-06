@@ -13,7 +13,7 @@ export default {
   },
   router: {
     base: process.env.SUBFOLDER || '',
-  }
+  },
   /*
   ** Headers of the page
   */
