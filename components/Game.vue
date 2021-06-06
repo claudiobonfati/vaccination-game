@@ -9,7 +9,7 @@
               {{ getRemainingTimeDisplay() }}
             </span>
           </h4>
-          <button id="game-btn-pause">
+          <button id="game-btn-pause" :class="['gm-'+status, status !== 'playing' ? 'disabled': '']" @click="pauseGame()">
             Pause
           </button>
           <button id="game-btn-sound">
@@ -403,6 +403,7 @@
         if (this.status != 'playing') { return; }
 
         if (this.getRemainingTimeDisplay() === '0:00') {
+          this.pauseGame();
           this.status = 'ended';
           return;
         }
@@ -500,6 +501,12 @@
         }
 
         this.status = 'playing';
+      },
+      pauseGame: function() {
+        if (this.status === 'playing') {
+          this.pauseTimer();
+          this.status = 'paused';
+        }
       },
       restartGame: function() {
         this.status = 'playing';
