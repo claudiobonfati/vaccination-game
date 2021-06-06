@@ -1,0 +1,21 @@
+language: node_js
+node_js:
+  - 12
+cache:
+  directories:
+  - node_modules
+install:
+  - npm install
+script:
+  - npm run build
+  - npm run generate
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $github_token
+  local_dir: dist
+  on:
+    all_branches: true
+    condition: $TRAVIS_BRANCH =~ ^(master|main)$
+env:
+  - BASE_URL=$base_url
