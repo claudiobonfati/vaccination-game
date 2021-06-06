@@ -1,5 +1,15 @@
 <template lang="html">
   <div class="c-game shadow-lg" :style="{width: width + 'px'}">
+    <div class="container-tips">
+      <div class="box-tip shadow-lg">
+        <h5>FIRST</h5>
+        <p>Trap the disease as fast as possible and maybe you will have a change.</p>
+      </div>
+      <div class="box-tip shadow-lg">
+        <h5>THEN</h5>
+        <p>Vaccine all remaining people before the timer goes out.</p>
+      </div>
+    </div>
     <div id="game-header" class="px-3 px-sm-4 px-md-5 py-3 py-md-4">
       <div class="row justify-content-center align-items-center no-gutters">
         <div class="col-6 pr-0 text-left">
@@ -174,12 +184,12 @@
         height: 570,            // Canvas height
         content: {
           win: {
-            title: 'Congratulations, successfully eradicated disease!',
-            description: 'Did you know that in order to <strong style="color: #ea9b1c;">eradicate</strong> a disease <strong style="color: #ea9b1c;">95%</strong> of the population needs to be immunized?',
+            title: 'Congratulations, disease eradicated!',
+            description: 'Did you know that in order to <strong style="color: #ea9b1c;">eradicate</strong> a disease, at least <strong style="color: #ea9b1c;">95%</strong> of the population needs to be immunized?',
           },
           lose: {
             title: 'Too bad... you need to be faster!',
-            description: 'Did you know that in order to <strong style="color: #ea9b1c;">eradicate</strong> a disease <strong style="color: #ea9b1c;">95%</strong> of the population needs to be immunized?',
+            description: 'Did you know that in order to <strong style="color: #ea9b1c;">eradicate</strong> a disease, at least <strong style="color: #ea9b1c;">95%</strong> of the population needs to be immunized?',
           }
         }
       }
@@ -701,15 +711,41 @@
   $color-orange: 			#ea9b1c
 
   .c-game
-    background-color: #0f111b
     width: 500px
     touch-action: manipulation
     display: block
     position: relative
+    border-radius: 30px
     .icon
       width: 18px
       height: 18px
       vertical-align: -3px
+    #game-header
+      background-color: #0f111b
+      border-radius: 30px 30px 0 0
+    .container-tips
+      position: absolute
+      top: 0
+      left: -230px
+    .box-tip
+      position: relative
+      border: 1px solid rgba(91,173,224, .15)
+      padding: 30px
+      padding-top: 60px
+      border-radius: 30px
+      width: 200px
+      background-color: rgba(#0f111b, .5)
+      overflow: hidden
+      margin-bottom: 30px
+      h5
+        position: absolute
+        font-size: 60px
+        color: rgba(91,173,224, .08)
+        left: -5px
+        top: -15px
+      p
+        margin: 0
+        color: $color-light-gray
     [class*="btn-default"]
       display: inline-block
       padding: 8px 10px
@@ -810,6 +846,7 @@
       background-color: #030710
       line-height: 25px
       overflow: hidden
+      border-radius: 0 0 30px 30px
     .box-scoreboard 100 h-100p
     .icon-face
       width: 25px
@@ -933,9 +970,17 @@
   @include media-breakpoint-down(md)
 
   @include media-breakpoint-down(sm)
-
-  @include media-breakpoint-down(sm)
     .c-game
+      .container-tips
+        display: none
+
+  @include media-breakpoint-down(xs)
+    .c-game
+      border-radius: 0 0 0 0
+      #game-header
+        border-radius: 0 0 0 0
+      .game-content
+        border-radius: 0 0 0 0
       .game-font-timer
         font-size: 2rem
 </style>

@@ -50,7 +50,6 @@
   .game-container
     width: 500px
     border-radius: 30px
-    overflow: hidden
 
   .github-corner
     position: absolute
@@ -67,7 +66,6 @@
 
   @include media-breakpoint-down(xs)
     .game-container
-      border-radius: 0
       width: 100%
       height: 100%
     .github-corner
