@@ -528,6 +528,16 @@
       TweenLite.to(refOverlayInitial, .5, { opacity: 1, display: 'block'});
       TweenLite.to(refCanvas, .5, { opacity: 0, display: 'none'});
 
+      function onBlur() {
+        this.pauseGame();
+      }
+
+      if (/*@cc_on!@*/false) { // Check for Internet Explorer
+        document.onfocusout = onBlur.bind(this);
+      } else {
+        window.onblur = onBlur.bind(this);
+      }
+
       function onResize() {
         this.init();
         this.status = 'not-started';
