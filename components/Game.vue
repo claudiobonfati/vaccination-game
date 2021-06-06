@@ -12,7 +12,7 @@
           <button id="game-btn-pause" :class="['gm-'+status, status !== 'playing' ? 'disabled': '']" @click="pauseGame()">
             Pause
           </button>
-          <button id="game-btn-sound">
+          <button id="game-btn-sound" :class="['gm-sound-'+soundStatus, 'gm-'+status]" @click="switchSound()">
             Sound
           </button>
         </div>
@@ -97,6 +97,7 @@
   import gsap from "gsap";
   import TweenLite from "gsap";
   import Person from "~/utils/GamePerson";
+  import { Howl } from 'howler';
 
   if (process.client) {
     gsap.registerPlugin(TweenLite);
@@ -150,6 +151,14 @@
           },
         },
         status: 'not-started',  // Game status: 'not-started', 'paused', 'playing' or 'ended'
+        soundStatus: 'on',     // Sound status: 'on' or 'off'
+        sounds: {               // Vars needed for sounds effects
+          tapCorrect: null,
+          tapWrong: null,
+          win: null,
+          lose: null,
+          bg: null,
+        },
         centersArray: [],       // Position of each person on population
         population: [],         // Population array
         canvas: null,           // HTML canvas element
@@ -193,6 +202,13 @@
         // Calc X and Y distances for population
         this.xDistance = Math.trunc(this.width / (this.config.field.x + 1));
         this.yDistance = Math.trunc(this.height / (this.config.field.y + 1));
+
+        // Instanciate sounds effects
+        this.sounds.tapCorrect = new Howl({ src: ['/sounds/game-tap.mp3'], volume: .05 });
+        this.sounds.tapWrong = new Howl({ src: ['/sounds/game-wrong-tap.mp3'], volume: .15  });
+        this.sounds.win = new Howl({ src: ['/sounds/game-win.mp3'], volume: .4 });
+        this.sounds.lose = new Howl({ src: ['/sounds/game-lose.mp3'], volume: .4 });
+        this.sounds.bg = new Howl({ src: ['/sounds/game-background.mp3'], loop: true, volume: 0.2 });
 
         // Intanciate population
         this.initGame();
@@ -400,6 +416,13 @@
         this.population.forEach(person => {
           if (this.getDistance(x, y, person.center.x, person.center.y) < (this.config.clickRadius * 2)) {
             var click = person.applyVaccine();
+            if (this.soundStatus === 'on') {
+              if (click) {
+                this.sounds.tapCorrect.play();
+              } else {
+                this.sounds.tapWrong.play();
+              }
+            }
           }
         });
       },
@@ -546,6 +569,13 @@
         this.status = 'playing';
         this.initTimer();
         this.initGame();
+      },
+      switchSound: function() {
+        if(this.soundStatus === 'on') {
+          this.soundStatus = 'off';
+        } else {
+          this.soundStatus = 'on';
+        }
       }
     },
     mounted() {
@@ -596,16 +626,34 @@
         if (val === 'paused') {
           TweenLite.to(refOverlayPause, .5, { opacity: 1, display: 'block'});
           TweenLite.to(refCanvas, .5, { opacity: 0, display: 'none'});
+
+          if (this.soundStatus === 'on') {
+            this.sounds.bg.pause();
+          }
         } else if (val === 'playing') {
           TweenLite.to(refCanvas, .5, { opacity: 1, display: 'block'});
           TweenLite.to(refOverlayInitial, .5, { opacity: 0, display: 'none'});
           TweenLite.to(refOverlayPause, .5, { opacity: 0, display: 'none'});
           TweenLite.to(refOverlayEnd, .5, { opacity: 0, display: 'none'});
+          if (this.soundStatus === 'on') {
+            this.sounds.bg.play();
+          }
         } else if (val === 'ended') {
           this.pauseTimer();
 
           TweenLite.to(refOverlayEnd, .5, { opacity: 1, display: 'block'});
           TweenLite.to(refCanvas, .5, { opacity: 0, display: 'none'});
+          if (this.soundStatus === 'on') {
+            this.sounds.bg.pause();
+            this.sounds.bg.seek(0);
+          }
+        }
+      },
+      soundStatus: function (val) {
+        if (val === 'off') {
+          this.sounds.bg.pause();
+        } else if (val === 'on' && this.status == 'playing') {
+          this.sounds.bg.play();
         }
       }
     }
@@ -796,6 +844,13 @@
           border-top: 6px solid transparent
           border-right: 10px solid $color-light-gray
           border-bottom: 6px solid transparent
+        &.gm-sound-on
+          &.gm-playing
+            &::after
+              animation: pulsing 1s linear infinite
+        &.gm-sound-off
+          &::after
+            opacity: .2
 
   @keyframes animatedBackground
     from
@@ -816,6 +871,26 @@
       -webkit-transform: rotate(360deg)
       -o-transform: rotate(360deg)
       transform: rotate(360deg)
+
+  @keyframes pulsing
+    0%
+      -ms-transform: scale(.9)
+      -moz-transform: scale(.9)
+      -webkit-transform: scale(.9)
+      -o-transform: scale(.9)
+      transform: scale(.9)
+    50%
+      -ms-transform: scale(1.1)
+      -moz-transform: scale(1.1)
+      -webkit-transform: scale(1.1)
+      -o-transform: scale(1.1)
+      transform: scale(1.1)
+    0%
+      -ms-transform: scale(.9)
+      -moz-transform: scale(.9)
+      -webkit-transform: scale(.9)
+      -o-transform: scale(.9)
+      transform: scale(.9)
 
   @include media-breakpoint-down(lg)
 
