@@ -20,17 +20,17 @@
           <p class="mb-1 small d-flex align-items-center">
             <img class="icon-face mr-1" src="~/assets/images/game-face-imune.svg" alt="Vaccinated">
             <span class="game-border-bottom">Vaccinated:</span>
-            <b class="game-color-yellow w-100 score-percent text-right game-border-bottom">00%</b>
+            <b class="game-color-yellow w-100 score-percent text-right game-border-bottom">{{score.imune}}%</b>
           </p>
           <p class="mb-1 small d-flex align-items-center">
             <img class="icon-face mr-1" src="~/assets/images/game-face-healthy.svg" alt="Healthy">
             <span class="game-border-bottom">Healthy:</span>
-            <b class="game-color-blue w-100 score-percent text-right game-border-bottom">00%</b>
+            <b class="game-color-blue w-100 score-percent text-right game-border-bottom">{{score.healthy}}%</b>
           </p>
           <p class="mb-0 small d-flex align-items-center">
             <img class="icon-face mr-1" src="~/assets/images/game-face-sick.svg" alt="Infected">
             <span class="game-border-bottom">Infected:</span>
-            <b class="game-color-red w-100 score-percent text-right game-border-bottom">00%</b>
+            <b class="game-color-red w-100 score-percent text-right game-border-bottom">{{score.sick}}%</b>
           </p>
         </div>
       </div>
@@ -60,7 +60,7 @@
       </div>
       <div id="game-overlay-end" class="w-100 h-100 text-left" ref="refOverlayEnd">
         <div class="row no-gutters w-100 h-100 align-items-center justify-content-center">
-          <section class="col-md-7 col-8 pb-5 text-center">
+          <section class="col-md-7 col-8 pb-5 text-center" v-if="score.imune >= 95">
             <h5 class="mb-2 h3 font-weight-bold">
               {{ content.win.title }}
             </h5>
@@ -73,7 +73,7 @@
               Learn more <feather type="external-link" class="icon"></feather>
             </a>
           </section>
-          <section class="col-md-7 col-8 pb-5 text-center">
+          <section class="col-md-7 col-8 pb-5 text-center" v-else>
             <h5 class="mb-2 d-flex align-items-center h3 font-weight-bold">
               {{ content.lose.title }}
             </h5>
@@ -150,6 +150,11 @@
             elapsed: 0,
           },
         },
+        score: {                // Variables needed for score counter
+          healthy: 0,
+          imune: 0,
+          sick: 0,
+        },
         status: 'not-started',  // Game status: 'not-started', 'paused', 'playing' or 'ended'
         soundStatus: 'on',     // Sound status: 'on' or 'off'
         sounds: {               // Vars needed for sounds effects
@@ -225,6 +230,11 @@
           this.canvas.addEventListener('mouseup', upListener);
         }
       },
+      cleanScore: function() { // Reset score to initial values
+        this.score.imune = 0;
+        this.score.healthy = 97;
+        this.score.sick = 3;
+      },
       initGame: function () { // Intanciate population
         // Clean old values if exists
         this.centersArray = [];
@@ -242,6 +252,9 @@
             });
           }
         }
+
+        // Reset score to initial values
+        this.cleanScore();
 
         // Set ramdomly initial infected people
         let infected = [];
@@ -489,6 +502,17 @@
             this.ctx.stroke();
           }
 
+          // Update population and get it status
+          let scores = [];
+          this.population.forEach(person => {
+            scores.push(person.update(this.ctx));
+          });
+
+          // Set score
+          this.score.healthy = Math.round((this.countItems(scores, 1) / this.centersArray.length) * 100);
+          this.score.imune = Math.round((this.countItems(scores, 2) / this.centersArray.length) * 100);
+          this.score.sick = Math.round((this.countItems(scores, 3) / this.centersArray.length) * 100);
+
           // Show FPS on debug mode
           if (this.config.debug) {
             let sinceStart = this.config.framerate.now - this.config.framerate.startTime;
@@ -646,7 +670,19 @@
           if (this.soundStatus === 'on') {
             this.sounds.bg.pause();
             this.sounds.bg.seek(0);
+            if(this.score.imune >= 95) {
+              this.sounds.win.play();
+            } else {
+              this.sounds.lose.play();
+            }
           }
+        }
+      },
+      'score.healthy': function (val) {
+        if (val === 0) {
+          setTimeout(() => {
+            this.status = 'ended';
+          }, 200);
         }
       },
       soundStatus: function (val) {
