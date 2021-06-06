@@ -3,7 +3,7 @@
     <div class="container-tips">
       <div class="box-tip shadow-lg">
         <h5>FIRST</h5>
-        <p>Trap the disease as fast as possible and maybe you will have a change.</p>
+        <p>Trap the disease as fast as possible and maybe you will have a chance.</p>
       </div>
       <div class="box-tip shadow-lg">
         <h5>THEN</h5>
