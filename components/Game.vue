@@ -219,11 +219,11 @@
         this.yDistance = Math.trunc(this.height / (this.config.field.y + 1));
 
         // Instanciate sounds effects
-        this.sounds.tapCorrect = new Howl({ src: ['/sounds/game-tap.mp3'], volume: .05 });
-        this.sounds.tapWrong = new Howl({ src: ['/sounds/game-wrong-tap.mp3'], volume: .15  });
-        this.sounds.win = new Howl({ src: ['/sounds/game-win.mp3'], volume: .4 });
-        this.sounds.lose = new Howl({ src: ['/sounds/game-lose.mp3'], volume: .4 });
-        this.sounds.bg = new Howl({ src: ['/sounds/game-background.mp3'], loop: true, volume: 0.2 });
+        this.sounds.tapCorrect = new Howl({ src: ['/vaccination-game/sounds/game-tap.mp3'], volume: .05 });
+        this.sounds.tapWrong = new Howl({ src: ['/vaccination-game/sounds/game-wrong-tap.mp3'], volume: .15  });
+        this.sounds.win = new Howl({ src: ['/vaccination-game/sounds/game-win.mp3'], volume: .4 });
+        this.sounds.lose = new Howl({ src: ['/vaccination-game/sounds/game-lose.mp3'], volume: .4 });
+        this.sounds.bg = new Howl({ src: ['/vaccination-game/sounds/game-background.mp3'], loop: true, volume: 0.2 });
 
         // Intanciate population
         this.initGame();
