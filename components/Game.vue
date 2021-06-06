@@ -52,7 +52,7 @@
               Continue
             </button>
             <br>
-            <button class="btn btn-default-orange w-100">
+            <button class="btn btn-default-orange w-100" @click="restartGame()">
               Restart
             </button>
           </div>
@@ -66,7 +66,7 @@
             </h5>
             <p class="mb-3" v-html="content.win.description"></p>
             <br>
-            <button class="btn btn-default-blue w-100 mb-3">
+            <button class="btn btn-default-blue w-100 mb-3" @click="restartGame()">
               Play again
             </button>
             <a class="btn btn-default-orange w-100" href="https://youtu.be/oBSandHijDc?t=6" target="_blank">
@@ -79,7 +79,7 @@
             </h5>
             <p class="mb-3" v-html="content.lose.description"></p>
             <br>
-            <button class="btn btn-default-blue w-100 mb-3">
+            <button class="btn btn-default-blue w-100 mb-3" @click="restartGame()">
               Try again
             </button>
             <a class="btn btn-default-orange w-100" href="https://youtu.be/oBSandHijDc?t=6" target="_blank">
@@ -500,6 +500,11 @@
         }
 
         this.status = 'playing';
+      },
+      restartGame: function() {
+        this.status = 'playing';
+        this.initTimer();
+        this.initGame();
       }
     },
     mounted() {
