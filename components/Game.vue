@@ -196,6 +196,18 @@
 
         // Intanciate population
         this.initGame();
+
+        // Add listeners on canvas
+        this.canvas.addEventListener('click', this.click);
+        if (this.config.debug) { // Enable hack on debug mode
+          let clicked = false;
+          let downListener = (event) => { clicked = true; };
+          let moveListener = (event) => { if (clicked) { this.click(event); } };
+          let upListener = (event) => { clicked = false; };
+          this.canvas.addEventListener('mousedown', downListener);
+          this.canvas.addEventListener('mousemove', moveListener);
+          this.canvas.addEventListener('mouseup', upListener);
+        }
       },
       initGame: function () { // Intanciate population
         // Clean old values if exists
@@ -379,6 +391,16 @@
           person.setMounted(surroundPeople);
 
           counter++;
+        });
+      },
+      click: function(event) { // Apply vaccine on population
+        let rect = event.target.getBoundingClientRect();
+        let x = event.clientX - rect.left; // x position within the element.
+        let y = event.clientY - rect.top;  // y position within the element.
+        this.population.forEach(person => {
+          if (this.getDistance(x, y, person.center.x, person.center.y) < (this.config.clickRadius * 2)) {
+            var click = person.applyVaccine();
+          }
         });
       },
       initTimer: function() {

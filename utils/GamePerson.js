@@ -580,6 +580,15 @@ export default class Person {
     return this.status;
   }
 
+  applyVaccine() {
+    if (this.status === 1) {
+      this.status = 2;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   getDistance(x1, y1, x2, y2) {
     const xDist = x2 - x1;
     const yDist = y2 - y1;
