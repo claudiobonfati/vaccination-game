@@ -1,5 +1,6 @@
 <template>
   <div class="full-page">
+    <VueGithubCorners repoUrl="https://github.com/claudiobonfati/vaccination-game" catColor="#1b2036" bgColor="#FFFFFF" class="github-corner"></VueGithubCorners>
     <div class="game-container" ref="refContainerGame">
       <Game />
     </div>
@@ -8,10 +9,12 @@
 
 <script>
   import Game from "~/components/Game";
+  import { VueGithubCorners } from 'vue2-github-corners';
 
   export default {
     components: {
-      Game
+      Game,
+      VueGithubCorners
     },
   }
 </script>
@@ -49,6 +52,11 @@
     border-radius: 30px
     overflow: hidden
 
+  .github-corner
+    position: absolute
+    top: 0
+    right: 0
+
   @include media-breakpoint-down(lg)
 
   @include media-breakpoint-down(md)
@@ -62,4 +70,6 @@
       border-radius: 0
       width: 100%
       height: 100%
+    .github-corner
+      display: none
 </style>

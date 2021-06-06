@@ -16,7 +16,8 @@
     "gsap": "^3.5.1",
     "nuxt": "^2.14.4",
     "vue": "^2.6.13",
-    "vue-feather": "^1.1.1"
+    "vue-feather": "^1.1.1",
+    "vue2-github-corners": "^0.1.12"
   },
   "devDependencies": {
     "@nuxtjs/style-resources": "^1.0.0",
