@@ -720,6 +720,7 @@
       width: 18px
       height: 18px
       vertical-align: -3px
+      display: inline-block
     #game-header
       background-color: #0f111b
       border-radius: 30px 30px 0 0
