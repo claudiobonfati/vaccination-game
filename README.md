@@ -1,6 +1,8 @@
 # Vaccination Game
 
-A web game based on canvas built with [Vue.js](https://vuejs.org/).
+A web game based on [Canvas API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) built with [Vue.js](https://vuejs.org/).
+
+You can check the **[LIVE project here](https://claudiobonfati.github.io/vaccination-game)**.
 
 ![Printscreens](https://i.imgur.com/B33FaMT.png)
 
@@ -54,7 +56,7 @@ With all dependencies installed and the environment properly configured, you can
 $ npm run dev
 ```
 
-Access the application at http://localhost:3000.
+Access the application at http://localhost:3000/vaccination-game/.
 
 ## Contributing
 
