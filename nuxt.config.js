@@ -26,7 +26,7 @@ export default {
       { hid: 'msapplicationtilecolor', name: 'msapplication-TileColor', content: '#0f111b' },
       { hid: 'msapplicationtileimage', name: 'msapplication-TileImage', content: '/favicon/ms-icon-144x144.png' },
       { hid: 'themecolor', name: 'theme-color', content: '#0f111b' },
-      { property: 'og:url', content: process.env.BASE_URL || 'http://localhost:3000' },
+      { property: 'og:url', content: process.env.BASE_URL || 'http://localhost:3000/vaccination-game/' },
       { property: 'og:title', content: 'Vaccination Game' },
       { property: 'og:description', content: 'A game that shows minimalistically how to eradicate a disease in a population.' },
       { property: 'og:type', content: 'website' },
