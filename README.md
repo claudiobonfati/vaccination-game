@@ -1,10 +1,27 @@
 # Vaccination Game
+> Web game with the goal to eradicate a disease before it spreads throughout the population
 
-A web game based on [Canvas API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) built with [Vue.js](https://vuejs.org/).
+[![License](https://img.shields.io/badge/License-MIT-blue)](#license)
 
-You can check the **[LIVE project here](https://claudiobonfati.github.io/vaccination-game)**.
+[![Made with Node.js](https://img.shields.io/badge/Node.js->=12-blue?logo=node.js&logoColor=white)](https://nodejs.org)
+[![Package - vue](https://img.shields.io/github/package-json/dependency-version/claudiobonfati/vaccination-game/vue?logo=vue.js&logoColor=white)](https://www.npmjs.com/package/vue)
+[![Package - nuxt](https://img.shields.io/github/package-json/dependency-version/claudiobonfati/vaccination-game/nuxt?logo=nuxt.js&logoColor=white)](https://www.npmjs.com/package/nuxt)
 
-![Printscreens](https://i.imgur.com/B33FaMT.png)
+
+A web game based on the browser's [Canvas API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) and built with [Vue.js](https://vuejs.org/).
+
+
+## Play the game online
+
+<div align="center">
+
+[![View site - GH Pages](https://img.shields.io/badge/Go_to-Vaccination_Game-2ea44f?style=for-the-badge)](https://claudiobonfati.github.io/vaccination-game/)
+
+</div>
+
+## Preview
+
+[![Website screenshot](https://i.imgur.com/B33FaMT.png "Website screenshot")](https://claudiobonfati.github.io/vaccination-game/)
 
 ## About this project
 
@@ -20,9 +37,8 @@ Connect with me at [LinkedIn](https://www.linkedin.com/in/claudiobonfati).
 
 ## Some notes about the project
 
-1 - _"Keep it simple"_ was one of the goals that I had in mind while developing.
-
-2 - The game was designed using a color palette inspired by an artwork made by [Rudi Hartono](https://dribbble.com/shots/15243102-Game-Match-Recap).
+1. _"Keep it simple"_ was one of the goals that I had in mind while developing.
+2. The game was designed using a color palette inspired by an artwork made by [Rudi Hartono](https://dribbble.com/shots/15243102-Game-Match-Recap).
 
 ## Getting Started
 
@@ -32,44 +48,45 @@ To run this project in the development mode, you'll need to have a basic environ
 
 For a detailed explanation of how Nuxt.js works, check out [Nuxt.js docs](https://nuxtjs.org).
 
-### Installing
+### Installation
 
-**Cloning the repository**
+**Clone the repository**
 
-```
+```sh
 $ git clone https://github.com/claudiobonfati/vaccination-game.git
-
 $ cd vaccination-game
 ```
 
-**Installing dependencies**
+**Install dependencies**
 
-```
+```sh
 $ npm install
 ```
 
-### Running
+### Run
 
-With all dependencies installed and the environment properly configured, you can now run the project:
+With all dependencies installed and the environment properly configured, you can now start the dev server:
 
-```
+```sh
 $ npm run dev
 ```
 
-Access the application at http://localhost:3000/vaccination-game/.
+Open in the browser at:
+
+- http://localhost:3000/vaccination-game/
 
 ## Contributing
 
-You can send how many PR's you want, I'll be glad to analyze and accept them!
+You can send as many PRs as you like, I'll be glad to analyze and accept them!
 
-Connect with me [LinkedIn](https://www.linkedin.com/in/claudiobonfati).
+Connect with me on [LinkedIn](https://www.linkedin.com/in/claudiobonfati).
 
 Thank you!
 
 ## Authors
 
-* **Claudio Bonfati** - [LinkedIn Profile](https://www.linkedin.com/in/claudiobonfati)
+- **Claudio Bonfati** - [LinkedIn Profile](https://www.linkedin.com/in/claudiobonfati)
 
 ## License
 
-This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/).
+This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/) by [@claudiobonfati](https://github.com/claudiobonfati).
